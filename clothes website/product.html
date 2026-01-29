@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details | Hasnat Afridi</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .product-detail-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 50px;
+        }
+
+        .product-gallery {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .main-image {
+            height: 600px;
+            overflow: hidden;
+            background-color: #eee;
+        }
+
+        .main-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-info-detail h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .product-price-detail {
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .product-desc {
+            margin-bottom: 40px;
+            color: var(--muted-color);
+            font-size: 1.1rem;
+        }
+
+        .detail-meta {
+            margin-bottom: 40px;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+
+        .detail-item {
+            margin-bottom: 15px;
+            display: flex;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            width: 120px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        .size-options {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .size-box {
+            width: 45px;
+            height: 45px;
+            border: 1px solid #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition-smooth);
+        }
+
+        .size-box:hover,
+        .size-box.active {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 20px;
+        }
+
+        @media (max-width: 900px) {
+            .product-detail-container {
+                grid-template-columns: 1fr;
+            }
+
+            .main-image {
+                height: 450px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="container nav">
+            <a href="index.html" class="brand-logo"><i class="fa-brands fa-apple"></i> Hasnat Afridi</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="cart.html" class="cart-icon">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main style="padding-top: var(--header-height);">
+        <div class="container">
+            <div class="product-detail-container" id="product-detail">
+                <div class="product-gallery">
+                    <div class="main-image">
+                        <img id="detail-img" src="" alt="Product">
+                    </div>
+                </div>
+                <div class="product-info-detail">
+                    <p class="text-gold" style="text-transform: uppercase; letter-spacing: 2px;">Premium Collection</p>
+                    <h1 id="detail-name">Loading...</h1>
+                    <p class="product-price-detail" id="detail-price">Rs. 0</p>
+
+                    <p class="product-desc" id="detail-desc">
+                        Please wait while we load the exquisite details of this garment.
+                    </p>
+
+                    <div class="detail-meta">
+                        <div class="detail-item">
+                            <span class="detail-label">Fabric:</span>
+                            <span>Ultra-Premium Blend</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Fit:</span>
+                            <span>Tailored Slim Fit</span>
+                        </div>
+                        <div class="detail-item" style="flex-direction: column;">
+                            <span class="detail-label">Select Size:</span>
+                            <div class="size-options">
+                                <div class="size-box">S</div>
+                                <div class="size-box active">M</div>
+                                <div class="size-box">L</div>
+                                <div class="size-box">XL</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="action-btns">
+                        <button class="btn btn-primary" id="add-btn" style="flex: 1;">Add to Cart</button>
+                        <button class="btn btn-gold" id="buy-btn" style="flex: 1;">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer style="margin-top: 80px;">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Hasnat Afridi. All Rights Reserved. Luxury Branded Clothing.</p>
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/923450731223" class="whatsapp-float" target="_blank">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <script src="js/main.js"></script>
+    <script src="js/products_data.js"></script>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id') || '1';
+        const product = products[id];
+
+        if (product) {
+            document.title = `${product.name} | Hasnat Afridi`;
+            document.getElementById('detail-name').innerText = product.name;
+            document.getElementById('detail-price').innerText = formatPrice(product.price);
+            document.getElementById('detail-img').src = product.img;
+            document.getElementById('detail-desc').innerText = product.desc;
+
+            document.getElementById('add-btn').onclick = () => addToCart(id, product.name, product.price, product.img);
+            document.getElementById('buy-btn').onclick = () => {
+                addToCart(id, product.name, product.price, product.img);
+                window.location.href = 'cart.html';
+            };
+        } else {
+            window.location.href = 'shop.html';
+        }
+    </script>
+</body>
+
+</html>
