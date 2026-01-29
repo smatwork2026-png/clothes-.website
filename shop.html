@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Collection | Hasnat Afridi</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="container nav">
+            <a href="index.html" class="brand-logo"><i class="fa-brands fa-apple"></i> Hasnat Afridi</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html" class="active">Shop</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="cart.html" class="cart-icon">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main style="padding-top: var(--header-height);">
+        <section>
+            <div class="container">
+                <div class="section-title">
+                    <p>Luxury Unveiled</p>
+                    <h2>Our Full Collection</h2>
+                </div>
+
+                <div class="product-grid" id="main-product-grid">
+                    <!-- Dynamic Products will be loaded here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="brand-logo"><i class="fa-brands fa-apple"></i> Hasnat Afridi</a>
+                    <p>Defining the peak of luxury fashion in Pakistan. Quality, Elegance, and Prestige.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Shop</h4>
+                    <ul>
+                        <li><a href="shop.html">Suits</a></li>
+                        <li><a href="shop.html">Coats</a></li>
+                        <li><a href="shop.html">Shirts</a></li>
+                        <li><a href="shop.html">Accessories</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="#">Shipping</a></li>
+                        <li><a href="#">Returns</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Social</h4>
+                    <ul>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Hasnat Afridi. All Rights Reserved. Luxury Branded Clothing.</p>
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/923450731223" class="whatsapp-float" target="_blank">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <script src="js/main.js"></script>
+    <script src="js/products_data.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const grid = document.getElementById('main-product-grid');
+
+            Object.keys(products).forEach(id => {
+                const product = products[id];
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <div class="product-image">
+                        <a href="product.html?id=${id}">
+                            <img src="${product.img}" alt="${product.name}" loading="lazy">
+                        </a>
+                        <div class="add-to-cart-overlay">
+                            <a href="javascript:void(0)" onclick="addToCart('${id}', '${product.name}', ${product.price}, '${product.img}')">Add to Cart</a>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">${product.name}</h3>
+                        <p class="product-price">${formatPrice(product.price)}</p>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Shopping Bag | Hasnat Afridi</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .cart-container {
+            margin-top: 50px;
+        }
+
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .cart-table th {
+            text-align: left;
+            padding: 20px;
+            border-bottom: 2px solid #000;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        .cart-table td {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .cart-item-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+        }
+
+        .qty-control {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 1px solid #ddd;
+            width: fit-content;
+            padding: 5px 15px;
+        }
+
+        .qty-btn {
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .cart-summary {
+            margin-top: 50px;
+            max-width: 400px;
+            margin-left: auto;
+            background-color: #fff;
+            padding: 30px;
+            border: 1px solid #eee;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .summary-total {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #000;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 100px 0;
+        }
+
+        @media (max-width: 768px) {
+
+            .cart-table th:nth-child(2),
+            .cart-table td:nth-child(2) {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="container nav">
+            <a href="index.html" class="brand-logo"><i class="fa-brands fa-apple"></i> Hasnat Afridi</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="cart.html" class="cart-icon active">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main style="padding-top: var(--header-height);">
+        <div class="container">
+            <div class="section-title" style="margin-bottom: 30px;">
+                <h2>Your Bag</h2>
+            </div>
+
+            <div id="cart-content">
+                <!-- Cart items will be rendered here -->
+            </div>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script>
+        function renderCart() {
+            const container = document.getElementById('cart-content');
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-cart">
+                        <h3>Your bag is empty</h3>
+                        <p style="margin-bottom: 30px; opacity: 0.6;">Start shopping our luxury collection today.</p>
+                        <a href="shop.html" class="btn btn-primary">Shop Now</a>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = `
+                <table class="cart-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Subtotal</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            let subtotal = 0;
+
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                html += `
+                    <tr>
+                        <td>
+                            <div class="cart-item-info">
+                                <img src="${item.image}" class="cart-item-img">
+                                <div>
+                                    <h4 style="font-family: Montserrat; font-size: 1rem;">${item.name}</h4>
+                                    <p style="color: var(--accent-color); font-weight: 600;">${formatPrice(item.price)}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="qty-control">
+                                <span class="qty-btn" onclick="updateQuantity('${item.id}', -1)">-</span>
+                                <span>${item.quantity}</span>
+                                <span class="qty-btn" onclick="updateQuantity('${item.id}', 1)">+</span>
+                            </div>
+                        </td>
+                        <td>${formatPrice(itemTotal)}</td>
+                        <td><i class="fa-solid fa-xmark" style="cursor: pointer; opacity: 0.5;" onclick="removeFromCart('${item.id}')"></i></td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                    </tbody>
+                </table>
+                <div class="cart-summary">
+                    <h3 style="margin-bottom: 20px;">Order Summary</h3>
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span>${formatPrice(subtotal)}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Shipping</span>
+                        <span class="text-gold">FREE</span>
+                    </div>
+                    <div class="summary-row summary-total">
+                        <span>Total Price</span>
+                        <span>${formatPrice(subtotal)}</span>
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%; margin-top: 20px;">Proceed To Checkout</button>
+                    <p style="text-align: center; font-size: 0.7rem; margin-top: 15px; opacity: 0.5;">Secure Checkout Guaranteed</p>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        document.addEventListener('DOMContentLoaded', renderCart);
+    </script>
+</body>
+
+</html>
